@@ -289,6 +289,10 @@ OPCODE_METADATA(Op.ReturnTo, {
 
 /// COMPONENTS ///
 
+OPCODE_METADATA(Op.IsBlock, {
+  name: 'IsBlock'
+});
+
 OPCODE_METADATA(Op.IsComponent, {
   name: 'IsComponent'
 });
@@ -590,7 +594,17 @@ OPCODE_METADATA(Op.GetBlock, {
   name: 'GetBlock',
   ops: [ScopeBlock('block')],
   operands: 1,
-  stackChange: 3
+  stackChange: 1
+});
+
+OPCODE_METADATA(Op.DestructureBlock, {
+  name: 'DestructureBlock',
+  stackChange: 2
+});
+
+OPCODE_METADATA(Op.UnwrapBlock, {
+  name: 'UnwrapBlock',
+  stackChange: 0
 });
 
 OPCODE_METADATA(Op.HasBlock, {

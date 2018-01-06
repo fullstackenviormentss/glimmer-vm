@@ -60,6 +60,8 @@ import {
   CheckComponentInstance,
   CheckFinishedComponentInstance
 } from './-debug-strip';
+import { TRUE_REFERENCE, FALSE_REFERENCE, BlockReference } from '../../references';
+import { ConstReference } from '@glimmer/reference/lib/const';
 
 export const ARGS = new Arguments();
 
@@ -103,6 +105,17 @@ export interface PartialComponentDefinition {
   state: Option<ComponentDefinitionState>;
   manager: InternalComponentManager;
 }
+
+APPEND_OPCODES.add(Op.IsBlock, vm => {
+  let stack = vm.stack;
+  let ref = check(stack.pop(), CheckReference);
+
+  if (ref['IS_BLOCK']) {
+    stack.push(TRUE_REFERENCE);
+  } else {
+    stack.push(FALSE_REFERENCE);
+  }
+});
 
 APPEND_OPCODES.add(Op.IsComponent, vm => {
   let stack = vm.stack;
@@ -475,7 +488,6 @@ APPEND_OPCODES.add(Op.InvokeComponentLayout, (vm, { op1: _state }) => {
   let { stack } = vm;
   let { handle, table: { symbols, hasEval } } =
     check(vm.fetchValue(_state), CheckFinishedComponentInstance);
-
   {
     let self = check(stack.pop(), CheckPathReference);
 
@@ -513,10 +525,24 @@ APPEND_OPCODES.add(Op.InvokeComponentLayout, (vm, { op1: _state }) => {
       if (lookup) lookup[symbolName] = block;
     };
 
+    let bindFirstClassBlock = (symbolName: string, blockName: string) => {
+      let symbol = symbols.indexOf(symbolName);
+
+      let block = blocks.get(blockName);
+
+      if (symbol !== -1) {
+        scope.bindSymbol(symbol + 1, BlockReference.create(block));
+      }
+
+      if (lookup) lookup[symbolName] = block;
+    };
+
     let blocks = args.blocks;
     bindBlock(ATTRS_BLOCK, 'attrs');
     bindBlock('&inverse', 'else');
     bindBlock('&default', 'main');
+    bindFirstClassBlock('@else', 'else');
+    bindFirstClassBlock('@main', 'main');
 
     if (lookup) scope.bindEvalScope(lookup);
 

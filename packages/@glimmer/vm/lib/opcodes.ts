@@ -89,6 +89,17 @@ export const enum Op {
   GetBlock,
 
   /**
+   * Operation: Spread an inline block into parts.
+   * Format:
+   *   (DestructureBlock)
+   * Operand Stack:
+   *   ..., InlineBlock →
+   *   ..., BlockPart1, BlockPart2, BlockPart3
+   */
+  DestructureBlock,
+  UnwrapBlock,
+
+  /**
    * Operation:
    *   Push TRUE onto the stack if the specified block
    *   is bound and FALSE if it is not.
@@ -650,6 +661,17 @@ export const enum Op {
    *   ...
    */
   Main,
+
+  /**
+   * Operation: Test whether ...
+   *
+   * Format:
+   *   (IsBlock)
+   * Operand Stack:
+   *   ..., MaybeBlock →
+   *   ..., VersionedPathReference<boolean>
+   */
+  IsBlock,
 
   /**
    * Operation: Test whether a reference contains a component definition.
