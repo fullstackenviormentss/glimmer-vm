@@ -10,13 +10,13 @@
     "@glimmer/reference": "^0.30.5",
     "@glimmer/wire-format": "^0.30.5",
     "@glimmer/interfaces": "^0.30.5",
-    "@glimmer/opcode-compiler": "^0.30.5",
     "@glimmer/program": "^0.30.5",
     "@glimmer/vm": "^0.30.5"
   },
   "devDependencies": {
     "@glimmer/object": "^0.30.5",
     "@glimmer/object-reference": "^0.30.5",
+    "@glimmer/opcode-compiler": "^0.30.5",
     "@glimmer/debug": "^0.30.5",
     "@types/qunit": "^2.0.31",
     "typescript": "^2.2.0"
