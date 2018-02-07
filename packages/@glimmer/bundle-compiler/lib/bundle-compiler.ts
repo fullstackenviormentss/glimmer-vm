@@ -8,7 +8,8 @@ import {
   STDLib,
   VMHandle,
   Unique,
-  CompilableProgram
+  CompilableProgram,
+  CompilableTemplate as ICompilableTemplate
 } from "@glimmer/interfaces";
 import {
   CompilableTemplate,
@@ -98,9 +99,7 @@ export interface PartialTemplateLocator<TemplateMeta> extends ModuleLocator {
  * can be loaded and run in the browser.
  */
 export default class BundleCompiler<TemplateMeta> {
-  public compilableTemplates = new ModuleLocatorMap<
-    CompilableProgram
-  >();
+  public compilableTemplates = new ModuleLocatorMap<ICompilableTemplate<ProgramSymbolTable>>();
   public compiledBlocks = new ModuleLocatorMap<SerializedTemplateBlock, TemplateLocator<TemplateMeta>>();
   public meta = new ModuleLocatorMap<TemplateMeta>();
 
