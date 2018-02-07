@@ -5,19 +5,19 @@ import { SerializedTemplateBlock } from "@glimmer/wire-format";
 import {
   ProgramSymbolTable,
   Recast,
+  STDLib,
   VMHandle,
-  Unique
+  Unique,
+  CompilableProgram
 } from "@glimmer/interfaces";
 import {
   CompilableTemplate,
   Macros,
   OpcodeBuilderConstructor,
   CompileOptions,
-  ICompilableTemplate,
   EagerOpcodeBuilder,
   TemplateOptions,
   SimpleOpcodeBuilder,
-  STDLib
 } from "@glimmer/opcode-compiler";
 import {
   WriteOnlyProgram,
@@ -99,7 +99,7 @@ export interface PartialTemplateLocator<TemplateMeta> extends ModuleLocator {
  */
 export default class BundleCompiler<TemplateMeta> {
   public compilableTemplates = new ModuleLocatorMap<
-    ICompilableTemplate<ProgramSymbolTable>
+    CompilableProgram
   >();
   public compiledBlocks = new ModuleLocatorMap<SerializedTemplateBlock, TemplateLocator<TemplateMeta>>();
   public meta = new ModuleLocatorMap<TemplateMeta>();
@@ -145,7 +145,7 @@ export default class BundleCompiler<TemplateMeta> {
    */
   addCompilableTemplate(
     _locator: PartialTemplateLocator<TemplateMeta>,
-    template: ICompilableTemplate<ProgramSymbolTable>
+    template: CompilableProgram
   ): void {
     let locator = normalizeLocator(_locator);
 

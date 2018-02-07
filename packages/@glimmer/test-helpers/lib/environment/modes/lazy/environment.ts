@@ -1,8 +1,7 @@
-import { Option, Maybe, Simple, ComponentCapabilities } from "@glimmer/interfaces";
+import { Option, Maybe, Simple, CompilableProgram, ComponentCapabilities } from "@glimmer/interfaces";
 import {
   Helper as GlimmerHelper,
   DOMTreeConstruction,
-  TopLevelSyntax,
   ModifierManager,
   PartialDefinition,
   ComponentDefinition,
@@ -62,7 +61,7 @@ export interface TestEnvironmentOptions {
   document?: Simple.Document;
   appendOperations?: DOMTreeConstruction;
   updateOperations?: IDOMChanges;
-  program?: TopLevelSyntax;
+  program?: CompilableProgram;
 }
 
 export type TestCompilationOptions = CompilationOptions<AnnotatedModuleLocator, LazyRuntimeResolver>;
