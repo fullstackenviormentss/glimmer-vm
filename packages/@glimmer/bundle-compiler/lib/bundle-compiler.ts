@@ -9,10 +9,10 @@ import {
   VMHandle,
   Unique,
   CompilableProgram,
-  CompilableTemplate as ICompilableTemplate
+  CompilableTemplate
 } from "@glimmer/interfaces";
 import {
-  CompilableTemplate,
+  CompilableTemplate as CompilableTemplateImpl,
   Macros,
   OpcodeBuilderConstructor,
   CompileOptions,
@@ -85,6 +85,9 @@ export interface PartialTemplateLocator<TemplateMeta> extends ModuleLocator {
   kind?: 'template';
 }
 
+// to make --declaration happy
+export { CompilableTemplate };
+
 /**
  * The BundleCompiler is used to compile all of the component templates in a
  * Glimmer program into binary bytecode.
@@ -99,7 +102,7 @@ export interface PartialTemplateLocator<TemplateMeta> extends ModuleLocator {
  * can be loaded and run in the browser.
  */
 export default class BundleCompiler<TemplateMeta> {
-  public compilableTemplates = new ModuleLocatorMap<ICompilableTemplate<ProgramSymbolTable>>();
+  public compilableTemplates = new ModuleLocatorMap<CompilableProgram>();
   public compiledBlocks = new ModuleLocatorMap<SerializedTemplateBlock, TemplateLocator<TemplateMeta>>();
   public meta = new ModuleLocatorMap<TemplateMeta>();
 
@@ -132,7 +135,7 @@ export default class BundleCompiler<TemplateMeta> {
     this.compiledBlocks.set(locator, block);
 
     let compileOptions = this.compileOptions(locator);
-    let compilableTemplate = CompilableTemplate.topLevel(block, compileOptions);
+    let compilableTemplate = CompilableTemplateImpl.topLevel(block, compileOptions);
 
     this.addCompilableTemplate(locator, compilableTemplate);
 
